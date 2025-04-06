@@ -1,10 +1,10 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Header from "../components/Header";
 import ServiceCard from "../components/ServiceCard";
 import Socials from "../components/Socials";
 import WorkCard from "../components/WorkCard";
 import { useIsomorphicLayoutEffect } from "../utils";
-import { stagger } from "../animations";
+import { stagger, fallingText } from "../animations";
 import Footer from "../components/Footer";
 import Head from "next/head";
 import Button from "../components/Button";
@@ -22,6 +22,7 @@ export default function Home() {
   const textTwo = useRef();
   const textThree = useRef();
   const textFour = useRef();
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   // Handling Scroll
   const handleWorkScroll = () => {
@@ -41,8 +42,17 @@ export default function Home() {
   };
 
   useIsomorphicLayoutEffect(() => {
+    // Use the falling text animation for header
+    const textElements = [textOne.current, textTwo.current, textThree.current, textFour.current];
+    
+    // Apply the falling text animation
+    fallingText(textElements).then(() => {
+      setAnimationComplete(true);
+    });
+    
+    // Apply regular stagger animation to other elements
     stagger(
-      [textOne.current, textTwo.current, textThree.current, textFour.current],
+      ".stagger-animate",
       { y: 40, x: -10, transform: "scale(0.95) skew(10deg)" },
       { y: 0, x: 0, transform: "scale(1)" }
     );
