@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import CustomCursor from "custom-cursor-react";
 import "custom-cursor-react/dist/index.css";
 import { useTheme } from "next-themes";
-import fallingTextData from "../../data/fallingText.json";
 
 const Cursor = () => {
   const theme = useTheme();
@@ -40,23 +39,4 @@ const Cursor = () => {
   );
 };
 
-const FallingTextBackground = () => {
-  const [textArray, setTextArray] = useState([]);
-
-  useEffect(() => {
-    // Load falling text data dynamically
-    setTextArray(fallingTextData.text);
-  }, []);
-
-  return (
-    <div className="falling-text-background">
-      {textArray.map((text, index) => (
-        <div key={index} className="falling-text">
-          {text}
-        </div>
-      ))}
-    </div>
-  );
-};
-
-export default FallingTextBackground;
+export default Cursor;
