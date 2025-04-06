@@ -7,7 +7,6 @@ import Head from "next/head";
 import { useIsomorphicLayoutEffect } from "../../utils";
 import { stagger } from "../../animations";
 import Button from "../../components/Button";
-import BlogEditor from "../../components/BlogEditor";
 import { useRouter } from "next/router";
 import Cursor from "../../components/Cursor";
 import data from "../../data/portfolio.json";
@@ -64,14 +63,6 @@ const BlogPost = ({ post }) => {
             Edit this blog
           </Button>
         </div>
-      )}
-
-      {showEditor && (
-        <BlogEditor
-          post={post}
-          close={() => setShowEditor(false)}
-          refresh={() => router.reload(window.location.pathname)}
-        />
       )}
     </>
   );
