@@ -4,7 +4,7 @@ import ServiceCard from "../components/ServiceCard";
 import Socials from "../components/Socials";
 import WorkCard from "../components/WorkCard";
 import { useIsomorphicLayoutEffect } from "../utils";
-import { stagger, fallingText } from "../animations";
+import { stagger, letterWall } from "../animations";
 import Footer from "../components/Footer";
 import Head from "next/head";
 import Button from "../components/Button";
@@ -22,6 +22,7 @@ export default function Home() {
   const textTwo = useRef();
   const textThree = useRef();
   const textFour = useRef();
+  const letterWallContainerRef = useRef();
   const [animationComplete, setAnimationComplete] = useState(false);
 
   // Handling Scroll
@@ -42,19 +43,37 @@ export default function Home() {
   };
 
   useIsomorphicLayoutEffect(() => {
-    // Use the falling text animation for header
-    const textElements = [textOne.current, textTwo.current, textThree.current, textFour.current];
-    
-    // Apply the falling text animation
-    fallingText(textElements).then(() => {
-      setAnimationComplete(true);
-    });
+    // Apply letter wall animation to the background
+    if (letterWallContainerRef.current) {
+      // Customize the letter wall appearance based on the theme
+      const isDarkMode = data.darkMode;
+      const options = {
+        letters: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        density: 80,
+        speed: 1.5,
+        backgroundColor: isDarkMode ? "rgba(0, 0, 0, 0.7)" : "rgba(255, 255, 255, 0.7)",
+        textColor: isDarkMode ? "rgba(0, 255, 150, 0.8)" : "rgba(20, 100, 220, 0.8)",
+        fadeInDuration: 0.5,
+        letterFallDuration: 3
+      };
+      
+      letterWall(letterWallContainerRef.current, options).then(() => {
+        setAnimationComplete(true);
+      });
+    }
     
     // Apply regular stagger animation to other elements
     stagger(
       ".stagger-animate",
       { y: 40, x: -10, transform: "scale(0.95) skew(10deg)" },
       { y: 0, x: 0, transform: "scale(1)" }
+    );
+    
+    // Stagger the header text elements for a subtle entrance effect
+    stagger(
+      [textOne.current, textTwo.current, textThree.current, textFour.current],
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, delay: 0.8 }
     );
   }, []);
 
@@ -64,6 +83,9 @@ export default function Home() {
       <Head>
         <title>{data.name}</title>
       </Head>
+
+      {/* Container for letter wall animation */}
+      <div ref={letterWallContainerRef} className="letter-wall-container"></div>
 
       <div className="gradient-circle"></div>
       <div className="gradient-circle-bottom"></div>

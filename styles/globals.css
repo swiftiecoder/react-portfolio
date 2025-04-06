@@ -12,6 +12,30 @@ body {
   @apply dark:bg-black dark:text-white;
 }
 
+/* Letter wall styles */
+.letter-wall-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.letter-wall-letter {
+  position: absolute;
+  user-select: none;
+  will-change: transform; /* Optimize for animations */
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.letter-wall-background {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
 .gradient-circle {
   position: absolute;
   pointer-events: none;
